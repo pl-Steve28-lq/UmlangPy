@@ -59,8 +59,8 @@ def bf2um(code, debug=False):
     var = getUmPointer(point)
     res = ""
     t, c = b[i]
-    if t == "+": res = f"{var[:-1]}엄{var}{'.'*c}"
-    if t == "-": res = f"{var[:-1]}엄{var}{','*c}"
+    if t == "+": res = f"{var[:-1]}엄{var}{c if debug else getUmNumber(c)}"
+    if t == "-": res = f"{var[:-1]}엄{var}{c if debug else getUmNumber(c, True)}"
     if t == ">": point += c
     if t == "<": point -= c
     if t == ".":
@@ -84,10 +84,10 @@ def bf2um(code, debug=False):
 def getUmPointer(p): return "어"*p
 
 from primeUtils import Factorize
-def getUmNumber(n):
+def getUmNumber(n, negative=False):
   res = []
   f = Factorize(n)
   for i in f.keys():
     for j in [i]*f[i]:
-      res.append("."*j)
+      res.append(("," if negative else ".")*j)
   return ' '.join(res)
